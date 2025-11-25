@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Visor RGB + Hex</title>
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <!-- App CSS -->
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body class="bg-body" data-bs-theme="light">
+    <nav class="navbar navbar-expand-lg sticky-top blur-nav">
+      <div class="container">
+        <span class="navbar-brand fw-semibold d-flex align-items-center gap-2">
+          <span class="brand-dot"></span> RGB ⇄ Hex Viewer
+        </span>
+        <div class="d-flex align-items-center gap-2 ms-auto">
+          <button id="themeToggle" class="btn btn-sm btn-outline-secondary px-3" type="button" aria-label="Cambiar tema">
+            <span class="theme-light">🌞 Claro</span>
+            <span class="theme-dark d-none">🌙 Oscuro</span>
+          </button>
+          <a class="btn btn-sm btn-primary" href="https://getbootstrap.com/" target="_blank" rel="noreferrer">Bootstrap</a>
+        </div>
+      </div>
+    </nav>
+
+    <main class="container py-5">
+      <div class="row g-4 align-items-stretch">
+        <div class="col-12 col-lg-6">
+          <div class="card shadow-soft h-100 glass">
+            <div class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
+              <span class="fw-semibold">Vista previa</span>
+              <div class="d-flex align-items-center gap-2">
+                <code id="rgbText" class="small text-muted">rgb(0, 0, 0)</code>
+                <span id="hexBadge" class="badge text-uppercase pill-badge">#000000</span>
+                <button id="copyBtn" class="btn btn-sm btn-outline-secondary" type="button" aria-label="Copiar código hexadecimal">
+                  Copiar
+                </button>
+              </div>
+            </div>
+            <div class="card-body">
+              <div id="preview" class="preview rounded-4 border position-relative">
+                <div class="checkerboard"></div>
+                <div id="previewLabel" class="position-absolute bottom-0 start-0 m-3 px-2 py-1 rounded-2 small fw-semibold bg-opacity-50">
+                  #000000
+                </div>
+              </div>
+              <div class="mt-3 d-flex gap-2 flex-wrap align-items-center">
+                <div class="d-flex align-items-center gap-2">
+                  <label for="colorPicker" class="form-label mb-0">Picker</label>
+                  <input id="colorPicker" type="color" class="form-control form-control-color shadow-soft-sm" value="#000000" title="Elegir color">
+                </div>
+                <div class="ms-auto d-flex gap-2">
+                  <button id="randomBtn" class="btn btn-primary" type="button">Aleatorio</button>
+                  <button id="resetBtn" class="btn btn-outline-secondary" type="button">Reiniciar</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 col-lg-6">
+          <div class="card shadow-soft h-100 glass">
+            <div class="card-header fw-semibold">Controles (0–255)</div>
+            <div class="card-body">
+              <!-- Rojo -->
+              <div class="mb-4">
+                <label for="rRange" class="form-label d-flex justify-content-between align-items-center">
+                  <span class="d-inline-flex align-items-center gap-2">
+                    <span class="dot dot-r"></span> Rojo
+                  </span>
+                  <span class="small text-muted"><span id="rVal">0</span></span>
+                </label>
+                <div class="input-group align-items-center">
+                  <input id="rRange" type="range" class="form-range flex-grow-1 range-r" min="0" max="255" step="1" value="0" aria-label="Rojo">
+                  <input id="rNum" type="number" class="form-control ms-3 shadow-soft-sm field-num" min="0" max="255" step="1" value="0" aria-label="Valor numérico de rojo">
+                </div>
+              </div>
+
+              <!-- Verde -->
+              <div class="mb-4">
+                <label for="vRange" class="form-label d-flex justify-content-between align-items-center">
+                  <span class="d-inline-flex align-items-center gap-2">
+                    <span class="dot dot-g"></span> Verde
+                  </span>
+                  <span class="small text-muted"><span id="vVal">0</span></span>
+                </label>
+                <div class="input-group align-items-center">
+                  <input id="vRange" type="range" class="form-range flex-grow-1 range-g" min="0" max="255" step="1" value="0" aria-label="Verde">
+                  <input id="vNum" type="number" class="form-control ms-3 shadow-soft-sm field-num" min="0" max="255" step="1" value="0" aria-label="Valor numérico de verde">
+                </div>
+              </div>
+
+              <!-- Azul -->
+              <div class="mb-2">
+                <label for="aRange" class="form-label d-flex justify-content-between align-items-center">
+                  <span class="d-inline-flex align-items-center gap-2">
+                    <span class="dot dot-b"></span> Azul
+                  </span>
+                  <span class="small text-muted"><span id="aVal">0</span></span>
+                </label>
+                <div class="input-group align-items-center">
+                  <input id="aRange" type="range" class="form-range flex-grow-1 range-b" min="0" max="255" step="1" value="0" aria-label="Azul">
+                  <input id="aNum" type="number" class="form-control ms-3 shadow-soft-sm field-num" min="0" max="255" step="1" value="0" aria-label="Valor numérico de azul">
+                </div>
+              </div>
+
+              <div class="form-text">Todo está sincronizado con el selector de color y el código hexadecimal se actualiza en tiempo real.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer class="container text-center py-4 small text-muted">
+      Hecho con Bootstrap 5 · Inter · ❤️
+    </footer>
+
+    <!-- Bootstrap Bundle JS (Popper incluido) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- App JS -->
+<script src="app.js"></script>
+  </body>
+</html>
